@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>map</title>
+	<link rel="stylesheet" href="3.css">
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key= AIzaSyBmnATbcsItV07AIzYhG-6E0ZYgZgTkh3w"></script>
+    <script>
+        window.addEventListener('load', doitfirst);
+        function doitfirst() {
+            map = document.getElementById('map');
+            errorText=document.createElement("h1");
+            var lat,lon,accuracy,coords,mapimage;
+
+        }
+        function showmap() {
+            if(navigator.geolocation)
+            {
+                navigator.geolocation.getCurrentPosition(getposition, errorhendelingnasr);
+
+            }else
+            {
+                map.innerText = "Sorry Your Browser not Support Geolocation !";
+            }
+        }
+        function getposition(position) {
+            lat = position.coords.latitude;
+            lon = position.coords.longitude;
+            var coords = new google.maps.LatLng(lat, lon);
+            var params = { zoom:17 , center: coords };
+            var mapimage = new Image();
+            mapimage.src = new google.maps.Map(map, params);
+            map.appendChild(mapimage);
+        }
+        function detailinf() {
+
+                map.innerHTML="<div id='map' ></div>"
+                tbldata.innerHTML='<table> <tr> <td>Latitude(degree)</td> <td><input class="inputText" type="text"/></td> </tr> <tr> <td>Longitude(degree)</td> <td><input class="inputText" type="text"/></td> </tr> <tr> <td>Accuracy</td> <td><input class="inputText" type="text"/></td> </tr> <tr> <td>TomeStamp</td> <td><input class="inputText" type="text"/></td> </tr> </table>';
+                if(document.getElementsByTagName("h1")[0])
+                    map.removeChild(errorText);
+                tbldata.style.display="block";
+                input1=document.getElementsByClassName("inputText")[0];
+                input1.setAttribute("value",lat);
+                input1.setAttribute("disabled","disabled");
+                input2=document.getElementsByClassName("inputText")[1];
+                input2.setAttribute("value",lon);
+                input2.setAttribute("disabled","disabled");
+                input3=document.getElementsByClassName("inputText")[2];
+                input3.setAttribute("value",accuracy);
+                input3.setAttribute("disabled","disabled");
+                input4=document.getElementsByClassName("inputText")[3];
+                input4.setAttribute("value",Date());
+                input4.setAttribute("disabled","disabled");
+            }
+        function errorhendelingnasr(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    map.innerText = 'PERMISSION_DENIED';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    map.innerText = 'POSITION_UNAVAILABLE';
+                    break;
+                case error.TIMEOUT:
+                    map.innerText = 'TIMEOUT';
+                    break;
+                case error.UNKOWN_ERROR:
+                    map.innerText = 'UNKOWN_ERROR';
+                    break;
+                default:
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="all">
+<div id="upper">
+<button id ="display" value="Display map" onclick="showmap();">Display map</button> 
+<!-- <button id ="inf" value="detailed info" onclick="detailinf();">Detailed information</button>
+ --></div>
+	
+<div id="map">
+
+</div>
+</div>
+</body>
+</html>
